@@ -1,0 +1,12 @@
+{% extends 'eventapp/base.html' %}
+{% block content %}
+    {% for event in events %}
+        <article class="event">
+            <time class="date">
+                {{ event.event_date }}
+            </time>
+            <h2><a href="">{{ event.title }}</a></h2>
+            <p>{{ event.text|linebreaksbr }}</p>
+        </article>
+    {% endfor %}
+{% endblock %}
