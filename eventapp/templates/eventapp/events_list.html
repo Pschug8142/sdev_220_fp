@@ -6,6 +6,7 @@
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a>
+    <p>New User? <a href="{% url 'signup' %}">Register Here</a></p>
 {% endif %}
     {% for event in events %}
         <article class="event">
