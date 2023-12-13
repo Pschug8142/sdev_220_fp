@@ -55,7 +55,7 @@ ROOT_URLCONF = "raid220.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR/"eventapp"/"templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -123,3 +123,5 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+LOGIN_REDIRECT_URL = "/eventapp/"
+LOGOUT_REDIRECT_URL = "/eventapp/"
