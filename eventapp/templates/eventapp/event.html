@@ -1,0 +1,16 @@
+{% extends 'eventapp/base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Enter an Event {{ user.username }}</h2>
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <p>New User? <a href="{% url 'signup' %}">Register Here</a></p>
+{% endif %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create</button>
+</form>
+{% endblock %}
