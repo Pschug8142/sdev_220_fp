@@ -3,6 +3,15 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+# from .models import EventSignUp
+
+
+class Player(models.Model):
+    name = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
 
 # Needs participants/toon/role.  
 class EventPost(models.Model):
@@ -14,20 +23,27 @@ class EventPost(models.Model):
     event_date = models.DateTimeField(blank=True, null=True)
     min_participants = models.IntegerField(default=0, null=True)
     max_participants = models.IntegerField(default=0, null=True)
-    # participants needs to be an array of class Toon's
-    # participants = models.ForeignObject(Toon) not sure how to do this
-
-
+    participants = models.ManyToManyField(Player)
+    
     def publish(self):
         self.event_date = timezone.now()
         self.save()
+    
+    def add_signup(self, user):
+        print(f"add {user}")
+        EventSignUp.objects.create(user = user, event = self)
+    
+    def del_signup(self, user):
+        registration = EventSignUp.objects.get(user = user, event = self)
+        registration.delete()
+    
+    def get_signups(self):
+        return EventSignUp.objects.filter(event = self)
 
     def __str__(self):
-        return f'{self.title} {self.event_date}'
+        return f'{self.title}'
 
-class Player(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # toon = models.ForeignKey(Toon, null=False, on_delete=models.CASCADE) Not possible would make many to many
+
 
 class Toon(models.Model):
     regions = (
@@ -54,6 +70,31 @@ class Toon(models.Model):
     gear_score = models.IntegerField(default=0)
     # ToDo: add items for gear, io score, and DPS
 
+    def get_api_gear(self):
+        try:
+            # gear_dict = {}
+            # gear_dict = skugs_api_call(self.name, self.realm_region, self.realm)
+            # return gear_dict
+            pass
+        except:
+            pass
+
     def __str__(self) -> str:
         return f'{self.name} {self.player_name} {self.primary_role} {self.gear_score}'
     
+
+class EventSignUp(models.Model):
+    event = models.ForeignKey(EventPost, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    toon = models.ForeignKey(Toon, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.user.username}'
+    
+    class Meta:
+        verbose_name = 'Attendee'
+        verbose_name_plural = 'Attendees'
+        unique_together = ('event', 'user')
+
+    def save(self, *args, **kwargs):
+        super(EventSignUp, self).save(*args, **kwargs)

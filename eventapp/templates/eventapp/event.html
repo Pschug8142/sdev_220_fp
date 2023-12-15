@@ -1,7 +1,7 @@
 {% extends 'eventapp/base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-<h2>Enter an Event {{ user.username }}</h2>
+<h2>Enter an Event: {{ user.username }}</h2>
     <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
     <p>You are not logged in</p>

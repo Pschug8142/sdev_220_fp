@@ -10,13 +10,25 @@
     <a href="{% url 'login' %}">Log In</a>
     <p>New User? <a href="{% url 'signup' %}">Register Here</a></p>
 {% endif %}
-    {% for event in events %}
+<br>
+<h2>Upcoming Events:</h2>
+<p>Click an event link to see the event details and sing up.</p>
+<br>
+    {% for event in latest_events %}
         <article class="event">
             <time class="date">
                 {{ event.event_date }}
             </time>
-            <h2><a href="">{{ event.title }}</a></h2>
+            <h2><a href="{% url 'detail' pk=event.pk %}">{{ event.title }}</a></h2>
             <p>{{ event.text|linebreaksbr }}</p>
+        </article>
+    {% endfor %}
+    {% for toon in toons %}
+        <article class="toon">
+            
+            {{ toon.name }}, {{ toon.player_name }}
+        
+            <p>{{ toon.gear_score|linebreaksbr }}</p>
         </article>
     {% endfor %}
 {% endblock %}

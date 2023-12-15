@@ -8,7 +8,8 @@ class ToonEntry(forms.ModelForm):
         fields = "__all__"
 
 class EventEntry(forms.ModelForm):
-
+# Need to get it to set author as User who created it. and redirect to main page
     class Meta:
         model = EventPost
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ["participants"]
