@@ -25,14 +25,20 @@ class EventPost(models.Model):
     max_participants = models.IntegerField(default=0, null=True)
     participants = models.ManyToManyField(Player)
     
+    @property
+    def get_participants(self):
+        print(self.participants)
+        return self.participants.name
+
     def publish(self):
         self.event_date = timezone.now()
         self.save()
     
     def add_signup(self, user):
         print(f"add {user}")
-        EventSignUp.objects.create(user = user, event = self)
-    
+        #EventSignUp.objects.create(user = user, event = self)
+        self.participants.add(user)
+        
     def del_signup(self, user):
         registration = EventSignUp.objects.get(user = user, event = self)
         registration.delete()
@@ -59,12 +65,28 @@ class Toon(models.Model):
         ("hybrid", "Hybrid"),
         ("none", "None"),
     )
+    wow_classes = (
+        ("death_knight", "Death Knight"),
+        ("demon_hunter", "Demon Hunter"),
+        ("druid", "Druid"),
+        ("evoker", "Evoker"),
+        ("hunter", "Hunter"),
+        ("mage", "Mage"),
+        ("monk", "Monk"),
+        ("paladin", "Paladin"),
+        ("priest", "Priest"),
+        ("rogue", "Rogue"),
+        ("shaman", "Shaman"),
+        ("warlock", "Warlock"),
+        ("warrior", "Warrior"),
+    )
 
     player_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # the human player
     name = models.CharField(max_length=12)
     realm = models.CharField(max_length=30)
     realm_region = models.CharField(max_length=10, choices=regions, default="americas")
     level = models.IntegerField(default=70)
+    tclass = models.CharField(max_length=30, choices=wow_classes, default="death_knight")
     primary_role = models.CharField(max_length=10, choices=roles, default="damage")
     secondary_role = models.CharField(max_length=10, choices=roles, null=True)
     gear_score = models.IntegerField(default=0)
