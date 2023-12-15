@@ -1,0 +1,32 @@
+{% extends 'eventapp/base.html' %}
+{% block content %}
+<h2>Event Detail</h2>
+{% if user.is_authenticated %}
+    Hi {{ user.username }}
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+    <p>Add your <a href="{% url 'toons' %}">Character</a></p>
+ 
+    <article class="event">
+        <time class="date">
+            {{ event.event_date }}
+        </time>
+        <h2><a href="{% url 'detail' pk=event.pk %}">{{ event.title }}</a></h2>
+        <p>{{ event.text|linebreaksbr }}</p>
+        <p>{{ event.participants }} </p>
+    </article>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <p>New User? <a href="{% url 'signup' %}">Register Here</a></p>
+{% endif %}
+<a target="_blank" 
+    class="btn btn-info pull-right" 
+    href="{% url 'add_participant' pk=event.pk %}">
+    Join Event
+</a>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Join Event</button>
+</form>
+{% endblock %}

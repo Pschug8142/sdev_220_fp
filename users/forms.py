@@ -1,3 +1,6 @@
+# users/forms.py not currently used, instead using standard user registration form.  The
+# functionality envisioned here is implemented in the eventapp/forms.py as ToonEntry.
+
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
