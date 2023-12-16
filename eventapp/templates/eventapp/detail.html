@@ -12,7 +12,13 @@
         </time>
         <h2><a href="{% url 'detail' pk=event.pk %}">{{ event.title }}</a></h2>
         <p>{{ event.text|linebreaksbr }}</p>
-        <p>Current Roster: {{ event.get_participants }} </p>
+        <p>Current Roster: </p>
+        {% for toon in toons %}
+            <article class="toon">
+                <p>{{ toon.name }}, {{ toon.player_name }}, {{ toon.gear_score|linebreaksbr }}</p>
+            </article>
+        {% endfor %}
+        <p>API: {{ toon.get_raiderio }} </p>
     </article>
 {% else %}
     <p>You are not logged in</p>

@@ -60,12 +60,12 @@ def test_api_request(token):
      print('Asking Blizzard API for profile information:', response)
      return response
 
-def get_api_gear(self):
-    try:
-        gear_dict = {}
-        gear_dict = skugs_api_call(self.name, self.realm_region, self.realm)
-        return gear_dict
-    except:
-        pass
+# def get_api_gear(self):
+#     try:
+#         gear_dict = {}
+#         gear_dict = skugs_api_call(self.name, self.realm_region, self.realm)
+#         return gear_dict
+#     except:
+#         pass
 
 
